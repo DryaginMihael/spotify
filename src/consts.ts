@@ -6,7 +6,7 @@ export const TOKEN_EXPIRE_CODE = 401;
 
 const authEndPoint = "https://accounts.spotify.com/authorize";
 const clienID = "b478f6d585864f419557df12e7089368";
-const redirectUri = "http://localhost:3000/";
+const redirectUri = window.location || "http://localhost:3000/";
 const scopes = [
   "user-read-currently-playing",
   "user-read-recently-played",
