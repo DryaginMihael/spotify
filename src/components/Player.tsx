@@ -70,6 +70,7 @@ export const Player:FC<IProps> = ({id, isPlaying, name, album, preview_url, onPl
             </svg>
           </button>
           <button title="Функция временно недоступна" className="w-5 h-5 text-gray-100 mr-6">
+
             <svg
               className="fill-current"
               xmlns="http://www.w3.org/2000/svg"
