@@ -1,12 +1,14 @@
 import React, { FC } from 'react'
 import { loginUrl } from '../consts'
 
+interface IProps {}
+
 /**
 * @author
 * @function @AuthPage
 **/
 
-export const AuthPage:FC = () => {
+export const AuthPage:FC<IProps> = (props) => {
     return (
       <div id="loginPage" className="h-full flex flex-col bg-black items-center justify-center">
         <svg viewBox="0 0 1134 340" className="spotify-logo--text">
