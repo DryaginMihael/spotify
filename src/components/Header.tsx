@@ -1,24 +1,13 @@
 import React, { FC } from 'react'
-import { SPOTIFY_TOKEN } from '../consts'
-import { CUR_TAB } from '../interfaces'
-import { Search } from './Search';
 
-interface IProps {
-  curTab: CUR_TAB;
-}
+interface IProps {}
 
 /**
 * @author
 * @function @Header
 **/
 
-export const Header:FC<IProps> = ({curTab}) => {
-
-  const handleLogout = () => {
-    localStorage.removeItem(SPOTIFY_TOKEN);
-    window.location.reload();
-  }
-
+export const Header:FC<IProps> = (props) => {
   return (
     <header className="px-6 py-4 mb-6 bg-gray-600 flex items-center justify-between sticky top-0 z-10">
         <div id="headerButtons" className="flex items-center">
@@ -38,16 +27,12 @@ export const Header:FC<IProps> = ({curTab}) => {
                 ></path>
               </svg>
             </button>
-            { curTab === CUR_TAB.SEARCH ? <Search /> : <></>}
         </div>
         <div>
             <button className="user-button overflow-hidden relative text-xs text-white bg-gray-500 rounded-full p-px pr-3">
                 <img src="http://i.pravatar.cc/300" className="w-7 h-7 inline-block rounded-full mr-2"/>
                 <span className="user-profile">Профиль</span>
-                <div
-                  className="logout-button flex items-center align-middle text-left bg-gray-500 opacity-100 absolute h-full top-0 bottom-0 w-full"
-                  onClick={handleLogout}
-                >
+                <div className="logout-button flex items-center align-middle text-left bg-gray-500 opacity-100 absolute h-full top-0 bottom-0 w-full">
                     Выйти
                 </div>
             </button>

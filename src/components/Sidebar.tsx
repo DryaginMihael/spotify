@@ -1,20 +1,15 @@
 import React, { FC } from 'react'
-import { CUR_TAB } from '../interfaces';
 
-interface IProps {
-    handleMainTab: () => void;
-    handleSearchTab: () => void;
-    curTab: CUR_TAB;
-}
+interface IProps {}
 
 /**
 * @author
 * @function @Sidebar
 **/
 
-export const Sidebar:FC<IProps> = ({handleMainTab, handleSearchTab, curTab}) => {
-    return (
-        <>
+export const Sidebar:FC<IProps> = (props) => {
+  return (
+    <>
         <div className="px-6 mb-6">
             <svg viewBox="0 0 1134 340" className="cursor-pointer w-auto h-10 text-white">
                 <title>Кирвиш</title>
@@ -25,10 +20,7 @@ export const Sidebar:FC<IProps> = ({handleMainTab, handleSearchTab, curTab}) => 
             </svg>
         </div>
         <div className="px-2 mb-6">
-            <div
-                className={'main-tab cursor-pointer flex font-medium items-center px-4 py-2 rounded text-sm ' + (curTab === CUR_TAB.MAIN ? 'bg-gray-200 text-white' : 'text-gray-100 hover:text-white')}
-                onClick={handleMainTab}
-            >
+            <div className="main-tab cursor-pointer bg-gray-200 flex font-medium items-center px-4 py-2 rounded text-sm text-white">
                 <svg
                 className="h-6 mr-4"
                 viewBox="0 0 512 512"
@@ -43,10 +35,7 @@ export const Sidebar:FC<IProps> = ({handleMainTab, handleSearchTab, curTab}) => 
                 </svg>
                 Главная
             </div>
-            <div
-                className={'main-tab cursor-pointer flex font-medium items-center px-4 py-2 rounded text-sm ' + (curTab === CUR_TAB.SEARCH ? 'bg-gray-200 text-white' : 'text-gray-100 hover:text-white')}
-                onClick={handleSearchTab}
-            >
+            <div className="search-tab cursor-pointer flex font-medium items-center px-4 py-2 rounded text-sm text-gray-100 hover:text-white">
                 <svg
                 className="h-6 mr-4"
                 viewBox="0 0 512 512"
@@ -95,6 +84,6 @@ export const Sidebar:FC<IProps> = ({handleMainTab, handleSearchTab, curTab}) => 
                 </div>
             </div>
         </div>
-        </>
-    )
-}
+    </>
+   )
+ }

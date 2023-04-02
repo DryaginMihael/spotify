@@ -1,40 +1,46 @@
-import { FC, useEffect } from 'react';
-import { useActions } from '../hooks/useActions';
-import { useTypedSelector } from '../hooks/useTypedSelector';
-import { CUR_TAB, ITrack } from '../interfaces';
-import { EmptySearch } from './EmptySearch';
+import React, { FC, useEffect, useState } from 'react'
+import { getByCategories, getByPlaylist } from '../api/spotifyApi';
+import { TOP_LIST } from '../consts';
+import { ITrack } from '../interfaces';
 import { Track } from './Track';
 
-interface IProps {
-  curTab: CUR_TAB;
+interface ITopTrack {
+  track: ITrack;
 }
 
+type ILoadTrack = ITrack & ITopTrack;
+
+interface IProps {
+  isSearch?: boolean;
+  onTrackClick: (track: ITrack) => void;
+  curTrack?: ITrack;
+}
 
 /**
 * @author
 * @function @TrackList
 **/
 
-export const TrackList:FC<IProps> = ({curTab}) => {
+export const TrackList:FC<IProps> = ({isSearch, curTrack, onTrackClick}) => {
 
-  const {tracks} = useTypedSelector(state => state.tracks);
-  const {track: curTrack, playing} = useTypedSelector(state => state.player);
-  const {fetchTopTracks, resetTracks, changeTrack, play, pause} = useActions();
+  const [tracks, setTracks] = useState<ILoadTrack[]>([]);
+
+  const filterTracks = (data: ILoadTrack[]) => data.filter(item => {
+    const track = isSearch ? item : item.track;
+    return !!track.preview_url;
+  }) 
 
   useEffect(() => {
-    if (curTab === CUR_TAB.MAIN) {
-      fetchTopTracks();
-    } else {
-      resetTracks();
-    }
-  }, [curTab])
+    (async function() {
+      const topList = await getByCategories(TOP_LIST);
+      const playlistId = topList[0].id;
+      const data = await getByPlaylist(playlistId);
+      setTracks(() => filterTracks(data));
+    })()
+  }, [])
 
   const handleTrackClick = (track: ITrack) => {
-    if (curTrack?.id !== track.id) {
-      changeTrack(track);
-    } else {
-      playing ? pause() : play();
-    }
+    onTrackClick(track);
   }
 
   return (
@@ -42,17 +48,19 @@ export const TrackList:FC<IProps> = ({curTab}) => {
         <div id="trackList" className="grid grid-cols-6 gap-4">
         {
           tracks.length ?
-          tracks.map(track => {
+          tracks.filter((item) => item.track.preview_url).map(item => {
+            const track = isSearch ? item : item.track;
             return <Track
                       key={track.id}
-                      isPlaying={curTrack?.id === track?.id && playing}
+                      isPlaying={track.id === curTrack?.id}
                       onPress={() => handleTrackClick(track)}
                       {...track}
                     />
-          }) : <></>
+          })
+          :
+          <div>Список пуст</div>
         }
         </div>
-        { !tracks.length && curTab === CUR_TAB.SEARCH ? <EmptySearch /> : <></> }
     </section>
    )
  }
